@@ -4,3 +4,5 @@ scikit-learn
 faiss-cpu
 pypdf
 numpy
+transformers
+torch

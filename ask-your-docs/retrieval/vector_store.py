@@ -2,15 +2,24 @@ import faiss
 import numpy as np
 
 
-def build_faiss_index(embeddings: list[list[float]]):
+def build_faiss_index(embeddings):
     """
-    Create FAISS index from embeddings
+    Build a FAISS index from embeddings.
+    Handles list → numpy conversion safely.
     """
 
-    embeddings=np.array(embeddings).astype("float32")
-    dim=embeddings.shape[1]
+    # Convert to numpy array
+    embeddings = np.array(embeddings)
 
-    index=faiss.IndexFlatL2(dim)
+    # Ensure 2D shape
+    if embeddings.ndim == 1:
+        embeddings = embeddings.reshape(1, -1)
+
+    embeddings = embeddings.astype("float32")
+
+    dim = embeddings.shape[1]
+
+    index = faiss.IndexFlatL2(dim)
     index.add(embeddings)
 
     return index
